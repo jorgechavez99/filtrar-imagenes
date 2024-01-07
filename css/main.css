@@ -8,18 +8,42 @@
 
 }
 
+header h1 {
+
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-size: 4rem;
+    padding: 50px;
+    font-weight: small;
+   
+}
+
+main h2 {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
 
 #botones{
     display: flex;
+    justify-content: center;
     gap: 4px;
 }
 
 button{
-    padding: 5px;
+    padding: 10px;
     border: 2px solid black;
+    border-radius: 5px;
     gap: 30px;
     cursor: pointer;
+    background-color: black;
+    color: white;
+   
 }
+
 
 #cajaFotos {
     display: flex;
@@ -30,8 +54,22 @@ button{
 #cajaFotos img {
 
     width:100%;
+    cursor: pointer;
 }
 
-h1 {
-    font-size: 1rem;
+#cajaFotoGrande {
+    margin: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+footer {
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    padding: 10px;
+    margin-top: 20px;
+    font-weight: small;
 }

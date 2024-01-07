@@ -18,13 +18,13 @@ const arrayImagenes = [
         foto: 'assets/viajes-1.jpg',
         alttext: 'playa con una palmera',
         titulo: 'titulo del viaje 1',
-        id: ["Mar","Cosa"]
+        id: ["Mar", "Cosa"]
     },
     imagen2 = {
         foto: 'assets/viajes-2.jpg',
         textoalt: 'playa con bungalows',
         titulo: 'titulo del viaje 2',
-        id: ["Mar","Edificio"]
+        id: ["Mar", "Edificio"]
     },
     imagen3 = {
         foto: 'assets/viajes-3.jpg',
@@ -66,6 +66,13 @@ botones.addEventListener('click', (ev) => {
     console.log(boton)
 });
 
+cajaFotos.addEventListener('click', (ev) => {
+    const fotoGrande = ev.target.src
+    mostrarFotoGrande(fotoGrande)
+    console.log(fotoGrande)
+
+})
+
 
 //generar Funciones
 
@@ -83,19 +90,11 @@ const crearBotones = () => {
 }
 crearBotones()
 
+
 const mostrarFotos = (boton) => {
 
-
-    const prueba=()=>{
-const ejec=arrayImagenes.filter((item)=>{
-item.id=="Mar"
-console.log(ejec)
-})
-    }
-    prueba()
-
-
-    /*arrayImagenes.forEach((item) => {
+    arrayImagenes.forEach((item) => {
+        cajaFotos.innerHTML = '';
         const caja = document.createElement('DIV');
         const titulos = document.createElement('H1')
         titulos.textContent = item.titulo
@@ -107,7 +106,18 @@ console.log(ejec)
         fragment.append(caja)
     })
 
-    cajaFotos.append(fragment)*/
+    cajaFotos.append(fragment)
+
+}
+
+const mostrarFotoGrande = (fotoGrande) => {
+    cajaFotoGrande.innerHTML=''
+    const foto = document.createElement('IMG')
+    foto.src = fotoGrande
+
+    fragment.append(foto)
+    cajaFotoGrande.append(fragment)
+
 
 }
 
