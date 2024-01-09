@@ -1,10 +1,5 @@
 //Accerder a los elementos del DOM
 
-/*const btnMar=document.querySelector('#btnMar')
-const btnEdificio=document.querySelector('#btnEdificio')
-const btnSeñales=document.querySelector('#btnSeñales')
-const btnArena=document.querySelector('#btnArena')
-const btnCasa=document.querySelector('#btnCasa')*/
 const botones = document.querySelector('#botones')
 const cajaFotos = document.querySelector('#cajaFotos')
 const cajaFotoGrande = document.querySelector('#cajaFotoGrande')
@@ -13,68 +8,127 @@ const fragment = document.createDocumentFragment();
 
 //Almacenar los objetos
 
+/***
+ * @param arrayImagenes =[objetos{foto: url, alttex:string, titulo:String, tag:Array}]
+ */
+
+const arrayImagenesSelec = [];
+
+
 const arrayImagenes = [
     imagen1 = {
         foto: 'assets/viajes-1.jpg',
         alttext: 'playa con una palmera',
         titulo: 'titulo del viaje 1',
-        id: ["Mar", "Cosa"]
+        tag: ["mar", "cosa"],
+        id: 1,
     },
     imagen2 = {
         foto: 'assets/viajes-2.jpg',
         textoalt: 'playa con bungalows',
         titulo: 'titulo del viaje 2',
-        id: ["Mar", "Edificio"]
+        tag: ["mar", "arena",],
+        id: 2,
     },
     imagen3 = {
         foto: 'assets/viajes-3.jpg',
         alttext: 'poste con señalizacion',
         titulo: 'titulo del viaje 3',
-        id: ["Señales"]
+        tag: ["señales"],
+        id: 3,
     },
     imagen4 = {
         foto: 'assets/viajes-4.jpg',
         alttext: 'plaza con pileta',
         titulo: 'titulo del viaje 4',
-        id: ["Edificio"]
+        tag: ["edificio", "mar"],
+        id: 4,
+
     },
     imagen5 = {
         foto: 'assets/viajes-5.jpg',
         alttext: 'puente',
         titulo: 'titulo del viaje 5',
-        id: ["Edificio"]
+        tag: ["edificio", "señales"],
+        id: 5,
 
     }, imagen6 = {
         foto: 'assets/viajes-6.jpg',
         alttext: 'malecon con mar',
         titulo: 'titulo del viaje 6',
-        id: ["Mar"]
+        tag: ["mar", "cosa"],
+        id: 6,
     }
 ];
 
 
+
+
+
 /**
- * @param arrayBotones(string)
+ * @param arrayBotones[string]//ingresar los nombres de los botones que queremos añadir
  */
-const arrayBotones = ['Mar', 'Edificio', 'Señales', 'Arena', 'Cosa']
+const arrayBotones = ['mar', 'edificio', 'señales', 'arena', 'cosa']
 
 // generar eventos
 
-botones.addEventListener('click', (ev) => {
-    const boton = ev.target.value;
-    mostrarFotos()
-    console.log(boton)
-});
+document.addEventListener('click', (ev) => {
+    //Evento para imprimir los botones
+    if (ev.target.matches("button")) {
+        const boton = ev.target.value;
 
-cajaFotos.addEventListener('click', (ev) => {
-    const fotoGrande = ev.target.src
-    mostrarFotoGrande(fotoGrande)
-    console.log(fotoGrande)
+        filtrarImagen(boton)
+
+    }
+    //Evento para imprimir las imagenes
+    if (ev.target.matches("img")) {
+        const fotoGrande = ev.target.id
+        intercambioPosicion(fotoGrande)
+
+    }
 
 })
 
 
+const intercambioPosicion = (fotoGrande) => {
+   // if (arrayImagenesSelec.length != 1) {
+
+                //console.log(fotoGrande);
+
+        limpiarCajaFotos()
+
+        arrayImagenesSelec.forEach((item) => {
+
+            if (item.id == fotoGrande) {
+                mostrarFotosGrande(item)
+            } else {
+
+                mostrarFotos(item)
+            }
+
+            // console.log(tg.id + " es igual a " + fotoGrande);
+        })
+    
+
+}
+
+/*
+let arrayBaner=[];
+const arrayboton = arrayImagenes.forEach((item) => {
+ 
+    const resultado = item.seleccion;
+    const rec=resultado.toString()
+    arrayBaner.push(rec)
+    
+
+})
+console.log(arrayBaner)
+*/
+
+
 //generar Funciones
+
+
 
 const crearBotones = () => {
     arrayBotones.forEach((item) => {
@@ -82,42 +136,114 @@ const crearBotones = () => {
         button.value = item;
         button.textContent = item;
 
-
         fragment.append(button)
     })
 
     botones.append(fragment)
 }
-crearBotones()
 
+//funcion filtrar
 
-const mostrarFotos = (boton) => {
+const filtrarImagen = (boton) => {
+
+    limpiarCajaFotos()
+    let contador = 0;
+
+    console.log(arrayImagenesSelec)
+    //Limpio el array por cada vuelta
+    arrayImagenesSelec.splice(0, arrayImagenesSelec.length);
 
     arrayImagenes.forEach((item) => {
-        cajaFotos.innerHTML = '';
-        const caja = document.createElement('DIV');
-        const titulos = document.createElement('H1')
-        titulos.textContent = item.titulo
-        const imagenes = document.createElement('IMG');
-        imagenes.src = item.foto
+        const buscar = item.tag.some((btn) => btn == boton)
 
-        caja.append(titulos)
-        caja.append(imagenes)
-        fragment.append(caja)
+        if (buscar) {
+            //Estoy indicando si la condicion es verdadera que pushee todos los true encontrados
+            arrayImagenesSelec.push(item)
+        }
     })
 
+    arrayImagenesSelec.forEach((tg) => {
+        if (arrayImagenesSelec.length != 1) {
+            if (contador == 0) {
+                mostrarFotosGrande(tg)
+                contador++;
+            } else {
+                mostrarFotos(tg)
+            }
+        } else {
+            mostrarFotosGrande(tg)
+            mostrarFotos(tg)
+        }
+
+    })
+
+    //console.log(arrayImagenesSelec);
+
+    mostrarParrafo(boton)
+
+}
+
+const mostrarParrafo = (boton) => {
+
+    const cantMostrar = arrayImagenesSelec.length
+    const parrafoInfo = document.createElement('P')
+    parrafoInfo.textContent = `Se ha encotrado ${cantMostrar} imagenes con el tag ${boton}`
+
+    cajaFotoGrande.append(parrafoInfo)
+}
+
+
+const mostrarFotos = (item) => {
+
+    const { foto, titulo, id } = item
+
+    const caja = document.createElement('DIV');
+    const titulos = document.createElement('P')
+    titulos.textContent = titulo
+    const imagenes = document.createElement('IMG');
+    imagenes.src = foto
+    imagenes.id = id
+    caja.append(titulos)
+    caja.append(imagenes)
+
+    fragment.append(caja)
     cajaFotos.append(fragment)
 
 }
 
-const mostrarFotoGrande = (fotoGrande) => {
-    cajaFotoGrande.innerHTML=''
-    const foto = document.createElement('IMG')
-    foto.src = fotoGrande
+const mostrarFotosGrande = (item) => {
 
-    fragment.append(foto)
+    const { foto, titulo, id } = item
+    cajaFotoGrande.innerHTML = ''
+    const caja = document.createElement('DIV');
+    const titulos = document.createElement('P')
+    titulos.textContent = titulo
+    const imagenes = document.createElement('IMG');
+    imagenes.src = foto
+    imagenes.id = id
+    //console.log(imagenes)
+    caja.append(titulos)
+    caja.append(imagenes)
+
+    fragment.append(caja)
     cajaFotoGrande.append(fragment)
+    //console.log(cajaFotoGrande)
+}
 
+const limpiarCajaFotos = () => {
+    cajaFotos.innerHTML = '';
+    cajaFotoGrande.innerHTML = '';
+}
+
+
+const mostrarFotoGrande = (fotoGrande) => {
+
+    cajaFotoGrande.innerHTML = ''
+    const fotos = document.createElement('IMG')
+    fotos.src = fotoGrande
+    fragment.append(fotos)
+    cajaFotoGrande.append(fragment)
 
 }
 
+crearBotones()

@@ -61,6 +61,13 @@ button{
     margin: 30px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#cajaFotoGrande p {
+    margin: 10px;
+    
 }
 
 footer {
