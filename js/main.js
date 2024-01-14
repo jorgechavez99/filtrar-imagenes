@@ -8,70 +8,59 @@ const fragment = document.createDocumentFragment();
 
 //Almacenar los objetos
 
-/***
- * @param arrayImagenes =[objetos{foto: url, alttex:string, titulo:String, tag:Array}]
- */
 
 const arrayImagenesSelec = [];
 
-
+/**
+ * @param arrayBotones[string]//ingresar los nombres de los botones que queremos añadir
+ */
+let arrayBotones = []
 const arrayImagenes = [
-    imagen1 = {
+    {
         foto: 'assets/viajes-1.jpg',
         alttext: 'playa con una palmera',
         titulo: 'titulo del viaje 1',
         tag: ["mar", "cosa"],
         id: 1,
     },
-    imagen2 = {
+    {
         foto: 'assets/viajes-2.jpg',
         textoalt: 'playa con bungalows',
         titulo: 'titulo del viaje 2',
         tag: ["mar", "arena",],
         id: 2,
     },
-    imagen3 = {
+    {
         foto: 'assets/viajes-3.jpg',
         alttext: 'poste con señalizacion',
         titulo: 'titulo del viaje 3',
-        tag: ["señales"],
+        tag: ["señales","avenidaNuevo"],
         id: 3,
     },
-    imagen4 = {
+    {
         foto: 'assets/viajes-4.jpg',
         alttext: 'plaza con pileta',
         titulo: 'titulo del viaje 4',
-        tag: ["edificio", "mar"],
+        tag: ["edificio", "mar","arena"],
         id: 4,
 
     },
-    imagen5 = {
+    {
         foto: 'assets/viajes-5.jpg',
         alttext: 'puente',
         titulo: 'titulo del viaje 5',
-        tag: ["edificio", "señales"],
+        tag: ["edificio", "señales","avenidaNuevo"],
         id: 5,
 
-    }, imagen6 = {
+    },{
         foto: 'assets/viajes-6.jpg',
         alttext: 'malecon con mar',
         titulo: 'titulo del viaje 6',
-        tag: ["mar", "cosa"],
+        tag: ["mar", "cosa","avenidaNuevo"],
         id: 6,
     }
 ];
-
-
-
-
-
-/**
- * @param arrayBotones[string]//ingresar los nombres de los botones que queremos añadir
- */
-const arrayBotones = ['mar', 'edificio', 'señales', 'arena', 'cosa']
-
 // generar eventos
-
 document.addEventListener('click', (ev) => {
     //Evento para imprimir los botones
     if (ev.target.matches("button")) {
@@ -84,53 +73,39 @@ document.addEventListener('click', (ev) => {
     if (ev.target.matches("img")) {
         const fotoGrande = ev.target.id
         intercambioPosicion(fotoGrande)
-
     }
-
 })
-
-
 const intercambioPosicion = (fotoGrande) => {
-   // if (arrayImagenesSelec.length != 1) {
-
-                //console.log(fotoGrande);
-
+    if (arrayImagenesSelec.length != 1) {
+        //console.log(fotoGrande);
         limpiarCajaFotos()
-
         arrayImagenesSelec.forEach((item) => {
-
             if (item.id == fotoGrande) {
                 mostrarFotosGrande(item)
             } else {
-
                 mostrarFotos(item)
             }
-
             // console.log(tg.id + " es igual a " + fotoGrande);
         })
-    
-
+    }
 }
-
-/*
-let arrayBaner=[];
-const arrayboton = arrayImagenes.forEach((item) => {
- 
-    const resultado = item.seleccion;
-    const rec=resultado.toString()
-    arrayBaner.push(rec)
-    
-
-})
-console.log(arrayBaner)
-*/
-
-
-//generar Funciones
-
-
-
 const crearBotones = () => {
+
+    let arrayfiltrado=[]
+
+    arrayImagenes.forEach((item) => {
+        const resultado = item.tag
+        resultado.filter((item) => {
+            //console.log("en filter", item)
+            arrayfiltrado.push(item)
+            let quitarDuplicados=arrayfiltrado.filter((item,index)=>{
+            console.log(item)
+            console.log(index)
+                return arrayfiltrado.indexOf(item)=== index;
+            })
+            arrayBotones=quitarDuplicados
+        })
+    })
     arrayBotones.forEach((item) => {
         const button = document.createElement('BUTTON');
         button.value = item;
@@ -178,11 +153,8 @@ const filtrarImagen = (boton) => {
     })
 
     //console.log(arrayImagenesSelec);
-
     mostrarParrafo(boton)
-
 }
-
 const mostrarParrafo = (boton) => {
 
     const cantMostrar = arrayImagenesSelec.length
